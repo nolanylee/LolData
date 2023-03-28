@@ -1,0 +1,52 @@
+PROBLEMS:
+
+1. many aspects of data needed to be stored, how to organize?
+	A. player data (already implemented but may need changes)
+		I. id
+		II. rank
+		III. winrate
+	B. game data (needs to be tied to player)
+		I. gold (compared to avg)
+		II. exp (compared to avg)
+		III. dmg (compared to avg)
+			a. kill participation
+			b. damage per death/damage per gold
+		IV. K/D/A ratio
+		V. cs (compared to avg)
+		VI. item build path
+		VII. matchup (what champion played against)
+	C. optional/possible data (may not be possible to implement)
+		I. vision score
+		II. damage share of team
+		III. early gold advantage against laner
+		IV. roam dominance score 
+2. how to organize and structure databases in relation to each other?
+	A. players play multiple champions
+		I. subtables needed for each champion?
+	B. relationship between player, champion and specific matchup
+		I. say we want to see how well a specific player plays
+		  in a certain matchup. how will we access those
+		  matches where they played that matchup?
+
+3. a huge amount of data required, how to get?
+	A. to properly test the project, I need a lot of data
+		I. there are 162 champions which allows for a lot of team comps,
+		  lane matchups, itemization... etc (many variables)
+		II. there's no telling how much data will need to be analyzed
+		  to make a working product
+
+(potential) SOLUTIONS:
+
+regarding problems 1 and 2:
+1. "player" table stores OVERALL + AVERAGE data, "champion" table stores SPECIFIC data
+	A. "player" -> id, rank, overall winrate
+		I. champion list -> winrate of each champion, avg gold, cs, dmg, etc
+	B. "champion" -> id
+		I. champion list -> list of match ids for each champion
+			a. access match info using Match-V5 API by inputting match id,
+			   then analyze match
+
+regarding problem 3:
+2. manually take and input the data from a data collection website to use as a sample
+	A. op.gg, u.gg, lolalytics.gg are websites that have analyzed millions of games
+
