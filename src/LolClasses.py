@@ -58,15 +58,35 @@ class LolPlayer():
 			else:
 				raise err
 		self.puuid = player['puuid']
-		soloLeague = [queue for queue in league if queue['queueType'] == 'RANKED_SOLO_5x5'][0]
-		self.leagueId = soloLeague['leagueId']
-		self.summonerId = soloLeague['summonerId']
-		self.tier = soloLeague['tier']
-		self.rank = soloLeague['rank']
-		self.leaguePoints = soloLeague['leaguePoints']
-		self.wins = soloLeague['wins']
-		self.losses = soloLeague['losses']
-		self.inactive = soloLeague['inactive']
+		soloLeague = [queue for queue in league if queue['queueType'] == 'RANKED_SOLO_5x5']
+		if len(soloLeague) != 0:
+			soloLeague = soloLeague[0]
+			self.leagueId = soloLeague['leagueId']
+			self.summonerId = soloLeague['summonerId']
+			self.tier = soloLeague['tier']
+			self.rank = soloLeague['rank']
+			self.leaguePoints = soloLeague['leaguePoints']
+			self.wins = soloLeague['wins']
+			self.losses = soloLeague['losses']
+			self.inactive = soloLeague['inactive']
+		elif len(league) != 0:
+			self.leagueId = league[0]['leagueId']
+			self.summonerId = league[0]['summonerId']
+			self.tier = 'UNRANKED'
+			self.rank = '0'
+			self.leaguePoints = 0
+			self.wins = 0
+			self.losses = 0
+			self.inactive = True
+		else:
+			self.leagueId = 'N/A'
+			self.summonerId = 'N/A'
+			self.tier = 'UNRANKED'
+			self.rank = '0'
+			self.leaguePoints = 0
+			self.wins = 0
+			self.losses = 0
+			self.inactive = True
 
     # Initialize player using LolSQL database.
     # The player is found in the database, then
@@ -101,9 +121,11 @@ class LolPlayer():
 		RankConverter.update('CHALLENGER', 2400 + gm_min + chal_min)
 
 	def convert_to_lp(self):
-		lp = RankConverter.convert_tier(self.tier) + self.leaguePoints
-		if lp < 2400:
-			lp += RankConverter.convert_rank(self.rank)
+		lp = RankConverter.convert_tier(self.tier)
+		if lp != None:
+			lp += self.leaguePoints
+			if lp < 2400:
+				lp += RankConverter.convert_rank(self.rank)
 		return lp
 
 	# Obtain dictionary of champion information (WARNING: very long to print)
@@ -230,7 +252,8 @@ class RankConverter():
 	def convert_rank(rank):
 		return RankConverter.rank_converter[rank]
 
-	tier_converter = {'IRON':				0,
+	tier_converter = {'UNRANKED':			None,
+					  'IRON':				0,
 					  'BRONZE':				400,
 					  'SILVER':				800,
 					  'GOLD':				1200,
