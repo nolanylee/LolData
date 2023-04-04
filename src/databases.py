@@ -1,5 +1,6 @@
 import sqlite3 as sq3
 from sqlite3 import Error
+import random
 
 # General functions to manipulate sqlite3 connections and execute sql
 # statements on databases. Note: closing connections is something left
@@ -119,6 +120,15 @@ class LolSQL(SQLdb):
 		filters = (name,)
 		return self.select_from_table_where(self.conn, select_sql, filters)
 
+	def get_random_puuid(self):
+		select_sql = """
+					SELECT puuid
+					FROM player_data
+					WHERE inactive = FALSE
+					"""
+		active_puuids = self.select_from_table_where(self.conn, select_sql)
+		return random.choice(active_puuids)
+
 class MatchSQL(SQLdb):
 	def __init__(self, name):
 		self.name = name
@@ -158,7 +168,7 @@ class MatchSQL(SQLdb):
 
 	def insert_match(self, LolMatch):
 		insert_sql = """
-					INSERT OR REPLACE INTO match_data 
+					INSERT INTO match_data 
 					(summonerName, matchId, gameVersion, queueId, championName,
 						teamPosition, teamSide, gameDuration, kills, deaths, assists,
 						damageDealt, damageTaken, goldEarned, champExperience, visionScore,
