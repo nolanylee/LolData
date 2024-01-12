@@ -26,7 +26,7 @@ class LolPlayer():
         # tier: big milestones for ranked (bronze, silver, gold, etc.)
         # rank: small milestones for ranked (silver 3, silver 2, silver 1, etc.)
         # leaguePoints: points (0-100) gained/lost from winning/losing games, 
-        #               reaching 100 points = promotion to higher rank or tier
+        #             \ reaching 100 points = promotion to higher rank or tier
         # wins: amount of solo ranked wins
         # losses: amount of solo ranked losses
         # inactive: boolean on whether account is inactive
@@ -258,10 +258,11 @@ class RankConverter():
 					  'SILVER':				800,
 					  'GOLD':				1200,
 					  'PLATINUM':			1600,
-					  'DIAMOND':			2000,
-					  'MASTER':				2400,
-					  'GRANDMASTER':		2400,
-					  'CHALLENGER':			2400}
+					  'EMERALD':			2000,
+					  'DIAMOND':			2400,
+					  'MASTER':				2800,
+					  'GRANDMASTER':		2800,
+					  'CHALLENGER':			2800}
 
 	rank_converter = {'IV':				0,
 					  'III':			100,
@@ -271,9 +272,9 @@ class RankConverter():
 if __name__ == '__main__':
 
 	# name = 'nowin REE'
-	# region = 'na1'
+	# reg = 'na1'
 
-	# player = LolPlayer(name, region)
+	# player = LolPlayer(name, reg)
 
 	# ranked_stats = player.get_ranked()
 	# print(ranked_stats)

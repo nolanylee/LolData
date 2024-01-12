@@ -75,4 +75,6 @@ class Conductor:
 		print('Storage complete.')
 
 if __name__ == '__main__':
-	Conductor.execute_random('na1')
+	#Conductor.execute('na1')
+	for i in range(5):
+		Conductor.execute_random('na1')
